@@ -1,7 +1,6 @@
 ﻿using Microsoft.Owin;
 using Owin;
-using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 [assembly: OwinStartup(typeof(WebApplication.Startup))]
 
@@ -11,7 +10,15 @@ namespace WebApplication
     {
         public void Configuration(IAppBuilder app)
         {
-            // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
+            app.Use((context, next) =>
+            {
+                var testHeader = new KeyValuePair<string, string[]>("test-header", new string[] { "asdasdasd" });
+
+                context.Response.Headers.Add(testHeader);
+
+
+                return next();
+            });
         }
     }
 }
