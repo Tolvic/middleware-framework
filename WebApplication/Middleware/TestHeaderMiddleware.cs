@@ -13,13 +13,13 @@ namespace WebApplication.Middleware
             this.next = next;
         }
 
-        public override Task Invoke(IOwinContext context)
+        public override async Task Invoke(IOwinContext context)
         {
+            await next.Invoke(context);
+
             var testHeader = new KeyValuePair<string, string[]>("test-header", new string[] { "asdasdasd" });
 
             context.Response.Headers.Add(testHeader);
-
-            return next.Invoke(context);
         }
     }
 }
